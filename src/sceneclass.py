@@ -16,11 +16,11 @@ class MainScene(tk.Frame):
         self.parent = parent
 
         mixer.music.set_volume(0.3)
-        mixer.music.load("../data/sound/tiktak_sound.mp3")
+        mixer.music.load("./data/sound/tiktak_sound.mp3")
         mixer.music.play(loops=-1)
         
-        self.correct_sound_effect = mixer.Sound("../data/sound/correct_sound.wav")
-        self.incorrect_sound_effect = mixer.Sound("../data/sound/incorrect_sound.wav")
+        self.correct_sound_effect = mixer.Sound("./data/sound/correct_sound.wav")
+        self.incorrect_sound_effect = mixer.Sound("./data/sound/incorrect_sound.wav")
 
         self.pack()
         self.count = 31
@@ -40,7 +40,7 @@ class MainScene(tk.Frame):
 
     def set_image(self):
         # 時限爆弾の画像の設置
-        self.image = tk.PhotoImage(file = "../data/image/time_bomb.png")
+        self.image = tk.PhotoImage(file = "./data/image/time_bomb.png")
         self.canvas_w, self.canvas_h = self.image.width(), self.image.height()
         self.canvas = tk.Canvas(self, width = self.canvas_w, height = self.canvas_h)
         self.canvas.create_image(self.canvas_w//2, self.canvas_h//2, anchor="c", image=self.image)
@@ -101,7 +101,7 @@ class MainScene(tk.Frame):
             self.after(1000, self.count_down)
         else:
             mixer.music.stop()
-            mixer.music.load("../data/sound/explosion_sound.mp3")
+            mixer.music.load("./data/sound/explosion_sound.mp3")
             mixer.music.play()
             self.after(4000)
             self.delete_scene()
@@ -150,9 +150,9 @@ class StartScene(tk.Frame):
         self.parent = parent
         mixer.init()
         mixer.music.set_volume(0.1)
-        mixer.music.load("../data/sound/start_scene_bgm.wav")
+        mixer.music.load("./data/sound/start_scene_bgm.wav")
         mixer.music.play(loops = -1)
-        self.button_press_se = mixer.Sound("../data/sound/button_press_sound.wav")
+        self.button_press_se = mixer.Sound("./data/sound/button_press_sound.wav")
 
         self.set_title_label()
         self.set_title_image()
@@ -167,7 +167,7 @@ class StartScene(tk.Frame):
         self.title_label.pack()
 
     def set_title_image(self):
-        self.title_image = tk.PhotoImage(file = "../data/image/bomb_defuse.png")
+        self.title_image = tk.PhotoImage(file = "./data/image/bomb_defuse.png")
         self.image_label = tk.Label(self, image = self.title_image)
         self.image_label.pack()
 
@@ -213,11 +213,11 @@ class ExplainScene(tk.Frame):
         mixer.init()
         mixer.music.set_volume(0.1)
 
-        mixer.music.load("../data/sound/explain_scene_bgm.wav")
+        mixer.music.load("./data/sound/explain_scene_bgm.wav")
         mixer.music.play()
-        self.button_press_se = mixer.Sound("../data/sound/button_press_sound.wav")
+        self.button_press_se = mixer.Sound("./data/sound/button_press_sound.wav")
 
-        self.explain_image = tk.PhotoImage(file = "../data/image/explain.PNG")
+        self.explain_image = tk.PhotoImage(file = "./data/image/explain.PNG")
         self.image_label = tk.Label(self, image = self.explain_image, pady = 5)
         self.image_label.pack()
 
@@ -247,9 +247,9 @@ class GameClearScene(tk.Frame):
         self.parent = parent
 
         mixer.init()
-        self.button_press_se = mixer.Sound("../data/sound/button_press_sound.wav")
+        self.button_press_se = mixer.Sound("./data/sound/button_press_sound.wav")
         mixer.music.set_volume(0.1)
-        mixer.music.load("../data/sound/gameclear_sound.mp3")
+        mixer.music.load("./data/sound/gameclear_sound.mp3")
         mixer.music.play()
 
         self.clear_message = tk.Label(self, text = "クリアおめでとう！", 
@@ -257,7 +257,7 @@ class GameClearScene(tk.Frame):
                                       font = ("メイリオ", 30, "bold"))
         self.clear_message.pack()
 
-        self.gameclear_image = tk.PhotoImage(file = "../data/image/gameclear_image.png")
+        self.gameclear_image = tk.PhotoImage(file = "./data/image/gameclear_image.png")
         self.gameclear_image_label = tk.Label(self, image = self.gameclear_image)
         self.gameclear_image_label.pack()
 
@@ -300,9 +300,9 @@ class GameOverScene(tk.Frame):
         self.parent = parent
 
         mixer.init()
-        self.button_press_se = mixer.Sound("../data/sound/button_press_sound.wav")
+        self.button_press_se = mixer.Sound("./data/sound/button_press_sound.wav")
         mixer.music.set_volume(0.1)
-        mixer.music.load("../data/sound/gameover_sound.mp3")
+        mixer.music.load("./data/sound/gameover_sound.mp3")
         mixer.music.play()
 
         self.clear_message = tk.Label(self, text = "残念！爆弾処理に失敗した！",  
@@ -310,7 +310,7 @@ class GameOverScene(tk.Frame):
                                       font = ("メイリオ", 30, "bold"))
         self.clear_message.pack()
 
-        self.gameover_image = tk.PhotoImage(file = "../data/image/gameover_image.png")
+        self.gameover_image = tk.PhotoImage(file = "./data/image/gameover_image.png")
         self.gameover_image_label = tk.Label(self, image = self.gameover_image)
         self.gameover_image_label.pack()
 
