@@ -25,8 +25,9 @@ class MainScene(tk.Frame):
         self.pack()
         self.count = 31
         self.score = 0
-        self.colors_en = ("white", "black", "red", "green", "blue", "yellow")
-        self.colors_jp = ("しろ", "くろ", "あか", "みどり", "あお", "き")
+        self.colors_en = ("white", "black", "red", "green", "blue", "yellow", "cyan", "magenta")
+        self.colors_jp = ("しろ", "くろ", "あか", "みどり", "あお", "き", "みず", "ぴんく")
+        self.colors_last_index = len(self.colors_en)-1
         self.correct_index = 0
         self.correct_answer = ""
         
@@ -68,11 +69,11 @@ class MainScene(tk.Frame):
 
     def set_promlem_label(self):
         # 問題文を設置
-        self.correct_index = random.randint(0, 5)
+        self.correct_index = random.randint(0, self.colors_last_index)
         self.correct_answer = self.colors_jp[self.correct_index]
         self.problem_label = tk.Label(self.canvas, 
-                                      text = self.colors_jp[random.randint(0, 5)], 
-                                      width = 10, height = 1, 
+                                      text = self.colors_jp[random.randint(0, self.colors_last_index)], 
+                                      width = 10, height = 1, bg = "black", 
                                       fg = self.colors_en[self.correct_index], 
                                       font = ("メイリオ", 40, "bold"), 
                                       borderwidth = 5, relief = "raised")
@@ -130,9 +131,9 @@ class MainScene(tk.Frame):
                 self.count = 0
                 self.time_label["text"] = self.count_to_time()
             
-        self.correct_index = random.randint(0, 5)
+        self.correct_index = random.randint(0, self.colors_last_index)
         self.correct_answer = self.colors_jp[self.correct_index]
-        self.problem_label["text"] = self.colors_jp[random.randint(0, 5)]
+        self.problem_label["text"] = self.colors_jp[random.randint(0, self.colors_last_index)]
         self.problem_label["fg"] = self.colors_en[self.correct_index]
         self.answer_column.delete(0, "end")
         
@@ -214,7 +215,7 @@ class ExplainScene(tk.Frame):
         mixer.music.set_volume(0.1)
 
         mixer.music.load("./data/sound/explain_scene_bgm.wav")
-        mixer.music.play()
+        mixer.music.play(loops=-1)
         self.button_press_se = mixer.Sound("./data/sound/button_press_sound.wav")
 
         self.explain_image = tk.PhotoImage(file = "./data/image/explain.PNG")
