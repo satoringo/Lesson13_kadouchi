@@ -2,6 +2,7 @@ import tkinter as tk
 import random
 from pygame import mixer
 import sys
+from PIL import Image, ImageTk, ImageSequence
 
 
 class App():
@@ -102,13 +103,13 @@ class MainScene(tk.Frame):
             self.after(1000, self.count_down)
         else:
             mixer.music.stop()
-            mixer.music.load("./data/sound/explosion_sound.mp3")
+            mixer.music.load("./data/sound/time_out_siren.mp3")
             mixer.music.play()
-            self.after(4000)
+            self.after(2000)
             self.delete_scene()
             self.destroy()
-            GameOverScene(self.parent)
-
+            ExplosionScene(self.parent)
+            return
 
     def answer_callback(self, event):
         # 回答欄にてEnterを押したときのコールバック関数
@@ -142,7 +143,6 @@ class MainScene(tk.Frame):
         mixer.quit()
         for widget in self.winfo_children(): widget.destroy()
         
-
 
 class StartScene(tk.Frame):
     def __init__(self, parent = None):
@@ -344,5 +344,44 @@ class GameOverScene(tk.Frame):
     def delete_scene(self):
         # 全てのウィジェットを消去する
         mixer.quit()
+        for widget in self.winfo_children(): widget.destroy()
+
+class ExplosionScene(tk.Frame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.pack()
+
+        self["padx"] = self["pady"] = 100
+        self.gif = Image.open("./data/gif/explosion.gif")
+        self.frames = [ImageTk.PhotoImage(image) for image in ImageSequence.Iterator(self.gif)]
+        self.frames_count = len(self.frames)
+        self.label = tk.Label(self, image=self.frames[0])
+        self.label.pack()
+        self.after(100, self.update_frame, 0)
+
+        # 音の初期化と再生を遅延させる
+        self.after(100, self.init_and_play_sound)
+
+    def update_frame(self, index):
+        self.frame = self.frames[index]
+        index += 1
+        if index == self.frames_count:
+            self.delete_scene()
+            self.destroy()
+            GameOverScene(self.parent)
+            return
+        self.label.configure(image=self.frame)
+        self.after(34, self.update_frame, index)
+
+    def init_and_play_sound(self):
+        mixer.init()
+        mixer.music.set_volume(0.1)
+        mixer.music.load("./data/sound/explosion_sound.mp3")
+        mixer.music.play()
+        self.after(1750, mixer.quit)
+
+    def delete_scene(self):
+        # 全てのウィジェットを消去する
         for widget in self.winfo_children(): widget.destroy()
 
